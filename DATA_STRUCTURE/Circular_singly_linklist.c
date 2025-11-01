@@ -50,7 +50,7 @@ void create()
     temp->next=new;
     head=new;
     
-    display();
+    // display();
  }       
 
  void insert_at_end()
