@@ -3,6 +3,7 @@
 #include<stdbool.h>
 void display();
 int size();
+void recall();
 typedef struct node
 {
     int data;
@@ -28,6 +29,7 @@ void create()
 
  void insert_at_front()
  {
+    int flag=1;
     if(head==NULL)
     {
         create();
@@ -49,12 +51,13 @@ void create()
     new->next=head;
     temp->next=new;
     head=new;
-    
+    recall(flag);
     // display();
  }       
 
  void insert_at_end()
  {
+    int flag=2;
     if(head==NULL)
     {
         create();
@@ -73,12 +76,13 @@ void create()
             temp=temp->next;
         }
         temp->next=new;
-    
+    recall(flag);
     // display();
  }
 
  void insert_at_specific_position()
  {
+    int flag=3;
     int pos;
     printf("Enter the position: ");
     scanf("%d",&pos);
@@ -108,7 +112,7 @@ void create()
     new->data=e;
     new->next=temp->next;
     temp->next=new;
-
+    recall(flag);
  }
 
  int size()
@@ -127,6 +131,7 @@ void create()
 
  void delete_from_front()
  {
+    int flag=4;
     if(head==NULL)
     {
         printf("Linklist is empty..\n");
@@ -147,12 +152,14 @@ void create()
     head=temp2->next;
     temp->next=head;
     free(temp2);
+    recall(flag);
 
  }
 
 
  void delete_from_end()
  {
+    int flag=5;
     if(head==NULL)
     {
         printf("Linklist is empty..\n");
@@ -174,11 +181,13 @@ void create()
     clink* temp2=temp->next;
     temp->next=head;
     free(temp2);
+    recall(flag);
 
  }
     
  void delete_from_specific_position()
  {
+    int flag=6;
     if(head==NULL)
     {
         printf("Linklis is empty..\n");
@@ -197,7 +206,6 @@ void create()
         
     }
 
-
     while(pos>count)
     {
         temp=temp->next;
@@ -206,13 +214,9 @@ void create()
     clink* temp2=temp->next;
     temp->next=temp2->next;
     free(temp2);
+    recall(flag);
     
-    
-
-
- }
-
-
+}
 
 
 void display()
@@ -238,34 +242,127 @@ void display()
 
         printf("\n");
 
+}
 
+void recall(int x)
+{
+    printf("Do you want to continue...");
+    printf("\nPress(Y/y) for YES Or (N/n) for NO\n");
+    char ch;
+    scanf(" %c",&ch);
+    if(ch=='y' || ch=='Y')
+    {
+        if(x==1)
+        {
+            insert_at_front();
+        }
+        else if(x==2)
+        {
+            insert_at_end();
+        }
+        else if(x==3)
+        {
+            insert_at_specific_position();
+
+        }
+        else if(x==4)
+        {
+            delete_from_front();
+
+        }
+        else if(x==5)
+        {
+            delete_from_end();
+            
+        }
+        else
+        {
+            delete_from_specific_position();
+        }
+
+    }
+    else if(ch=='n' || ch=='N')
+    {
+        return;
+    }
+    else
+    {
+        printf("\nINVALID\n");
+    }
+}
+
+void free_memory()
+{
+    clink* temp=head;
+    clink* next_node;
+
+    while(temp->next!=head)
+    {
+        next_node=temp->next;
+        free(temp);
+        temp=next_node;
+    }
+    free(temp);
+    head=NULL;
 
 }
+
 
 int main()
 {
 
-    create();
+   while(true)
+ {
+    printf("\n=========CIRCULAR SINGLY LINKLIST OPERATIONS MENU========\n");
+    printf("1. CREATE LINKLIST\n");
+    printf("2. INSERT AT FRONT\n");
+    printf("3. INSERT AT SPECIFIC POSITION\n");
+    printf("4. INSERT AT END\n");
+    printf("5. DELETE FROM FRONT\n");
+    printf("6. DELETE FROM SPECIFIC POSITION\n");
+    printf("7. DELETE FROM END\n");
+    printf("8. TOTAL NUMBER OF ELEMENTS\n");
+    printf("9. DISPLAY\n");
+    printf("10. EXIT\n");
 
-    insert_at_end();
-    insert_at_end();
-    insert_at_end();
+    int choice;
+    printf("Enter Your Choice <1-10>");
+    scanf("%d",&choice);
 
-    // insert_at_end();
-
-    // insert_at_end();
-    display();
-
-    // delete_from_front();
-    delete_from_specific_position();
-    
-    // insert_at_specific_position();
-    // printf("\nthe size of linklist is %d ",size());
-
-
-    // insert_at_front();
-    // insert_at_front();
-    // insert_at_front();
-    display();
+    switch(choice)
+    {
+        case 1:
+        create();
+        break;
+        case 2:
+        insert_at_front();
+        break;
+        case 3:
+        insert_at_specific_position();
+        break;
+        case 4:
+        insert_at_end();
+        break;
+        case 5:
+        delete_from_front();
+        break;
+        case 6:
+        delete_from_specific_position();
+        break;
+        case 7:
+        delete_from_end();
+        break;
+        case 8:
+        printf("\nThe size of linklist is :%d\n",size());
+        break;
+        case 9:
+        display();
+        break;
+        case 10:
+        free_memory();
+        exit(0);
+        break;
+    }
+ }
     return 0;
 }
