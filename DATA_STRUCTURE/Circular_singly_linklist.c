@@ -124,7 +124,93 @@ void create()
     return count;
  }
 
+
+ void delete_from_front()
+ {
+    if(head==NULL)
+    {
+        printf("Linklist is empty..\n");
+        return;
+    }
+    clink* temp=head;
+    clink* temp2=head;
+    while(temp->next!=head)
+    {
+        temp=temp->next;
+    }
+    if(temp2->next==head)
+    {
+        head=NULL;
+        free(temp2);
+        return;
+    }
+    head=temp2->next;
+    temp->next=head;
+    free(temp2);
+
+ }
+
+
+ void delete_from_end()
+ {
+    if(head==NULL)
+    {
+        printf("Linklist is empty..\n");
+        return;
+    }
+    clink* temp=head;
+
+    if(temp->next==head)
+    {
+        head=NULL;
+        free(temp);
+        return;
+    }
+    while(temp->next->next!=head)
+    {
+        temp=temp->next;
+    }
+
+    clink* temp2=temp->next;
+    temp->next=head;
+    free(temp2);
+
+ }
     
+ void delete_from_specific_position()
+ {
+    if(head==NULL)
+    {
+        printf("Linklis is empty..\n");
+        return;
+    }
+
+    int pos;
+    printf("\nEnter the position: ");
+    scanf("%d",&pos);
+    int count=2;
+    clink* temp=head;
+    if(pos==1){
+
+        delete_from_front();
+        return;
+        
+    }
+
+
+    while(pos>count)
+    {
+        temp=temp->next;
+        count++;
+    }
+    clink* temp2=temp->next;
+    temp->next=temp2->next;
+    free(temp2);
+    
+    
+
+
+ }
 
 
 
@@ -150,6 +236,8 @@ void display()
     }
         printf("%d->",temp->data);
 
+        printf("\n");
+
 
 
 }
@@ -158,17 +246,20 @@ int main()
 {
 
     create();
-    // insert_at_end();
-    // insert_at_end();
 
-    // insert_at_end();
+    insert_at_end();
+    insert_at_end();
+    insert_at_end();
 
     // insert_at_end();
 
     // insert_at_end();
     display();
-    printf("\n");
-    insert_at_specific_position();
+
+    // delete_from_front();
+    delete_from_specific_position();
+    
+    // insert_at_specific_position();
     // printf("\nthe size of linklist is %d ",size());
 
 
