@@ -2,6 +2,7 @@
 #include<stdlib.h>
 #include<stdbool.h>
 void display();
+int size();
 typedef struct node
 {
     int data;
@@ -63,6 +64,79 @@ void insert_at_front()
 
 }
 
+void insert_from_specific_position()
+{
+    if(head==NULL)
+    {
+        create();
+        return;
+    }
+    int pos;
+    printf("\nEnter the position:");
+    scanf("%d",&pos);
+    int count=1;
+
+    int e;
+    printf("Enter data: ");
+    scanf("%d",&e);
+
+    link* new=(link*) malloc(sizeof(link));
+
+    if(pos==1)
+    {
+        insert_at_front();
+        return;
+    }
+    link* temp=head;
+
+    while(pos-1>count)
+    {
+        temp=temp->next;
+        count++;
+
+    }
+    link* temp2=temp->next;
+    new->data=e;
+    new->next=temp2;
+    temp->next=new;
+
+    
+}
+
+void delete_from_front()
+{
+    if(head==NULL)
+    {
+        create();
+        return;
+    }
+
+
+    link* temp=head;
+
+    if(temp->next==NULL)
+    {
+        head=NULL;
+        free(temp);
+        return;
+    }
+
+    head=temp->next;
+    free(temp);
+}
+
+int size()
+{
+    link* temp=head;
+    int count=1;
+    while(temp->next!=NULL)
+    {
+        temp=temp->next;
+        count++;
+    }
+    return count;
+}
+
 void display()
 {
     link* temp=head;
@@ -83,10 +157,11 @@ void display()
 int main()
 {
     create();
-    // insert_at_end();
-    // insert_at_end();
-    // insert_at_end();
-    insert_at_front();
+    insert_at_end();
+    insert_at_end();
+    insert_at_end();
+    // insert_at_front();
+    delete_from_front();
     display();
     return 0;
 }
