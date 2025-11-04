@@ -125,6 +125,72 @@ void delete_from_front()
     free(temp);
 }
 
+
+void delete_from_end()
+{
+    if(head==NULL)
+    {
+        printf("Linklist is empty..");
+        return;
+    }
+    link* temp=head;
+    if(temp->next==NULL)
+    {
+        head=NULL;
+        free(temp);
+        return;
+
+    }
+    int count=1;
+
+    
+    while(count<size()-1)
+    {
+        temp=temp->next;
+        count++;
+    }
+
+    link* temp2=temp->next;
+    temp->next=NULL;
+    free(temp);
+}
+
+void delete_from_specific_position()
+{
+    if(head==NULL)
+    {
+        printf("Linklist is empty..");
+        return;
+    }
+    int pos;
+    printf("Enter the position: ");
+    scanf("%d",&pos);
+
+    if(pos==1)
+    {
+        delete_from_front();
+        return;
+    }
+
+    if(pos>size())
+    {
+        printf("Invalid position");
+        return;
+    }
+
+    link* temp=head;
+    int count=1;
+    while(count<pos-1)
+    {
+        temp=temp->next;
+        count++;
+    }
+
+    link* temp2=temp->next;
+    temp->next=temp2->next;
+    free(temp2);
+}
+
 int size()
 {
     link* temp=head;
@@ -161,7 +227,7 @@ int main()
     insert_at_end();
     insert_at_end();
     // insert_at_front();
-    delete_from_front();
+    delete_from_specific_position();
     display();
     return 0;
 }
