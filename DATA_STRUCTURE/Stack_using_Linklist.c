@@ -9,8 +9,7 @@ typedef struct node
     struct node* next;
 }stack;
 
-stack* head;
-stack* top;
+stack* top=NULL;
 
 
 
@@ -23,54 +22,65 @@ void push()
 
     stack* new=(stack*) malloc(sizeof(stack));
     new->data=n;
-    new->next=NULL;
-    if(head==NULL)
-    {
-        head=new;
-        top=head;
-        return;
-    }
     
-    top->next=new;
+    if(top==NULL)
+    {
+        new->next=NULL;
+        top=new;
+        
+    }
+    else
+    {
+
+    
+    new->next=top;
     top=new;
+}
+
+
+    printf("\n %d is successfully pushed into the stack\n",n);
 
 }
 
 void pop()
 {
-    if(head==NULL)
+    if(top==NULL)
     {
         printf("Stack underflow\n");
         return;
     }
 
-    if(head==top)
+    int x=top->data;
+
+    if(top->next==NULL)
     {
-        head=NULL;
+       
         free(top);
-        return;
+        top=NULL;
+    
     }
-
-
-    stack* temp=head;
-
-    while(temp->next!=top)
+    else
     {
-        temp=temp->next;
-    }
+
+    stack* temp=top;
+    top=temp->next;
     temp->next=NULL;
-    free(top);
-    top=temp;
+    free(temp);
+
+}
+ printf("\n %d is successfully poped from the stack\n",x);
+    
 }
 
 void display()
 {
-    if(head==NULL)
+    if(top==NULL)
     {
         printf("Stack is empty..");
+        return;
     }
 
-    stack* temp=head;
+    stack* temp=top;
 
     while(temp!=NULL)
     {
@@ -83,8 +93,33 @@ void display()
 
 void peek()
 {
-    printf("%d",top->data);
+
+    if(top==NULL)
+    {
+        printf("\n stack is empty..\n");
+    }
+    else
+    {
+    printf("\n %d is top of stack\n",top->data);
+    }
 }
+
+
+void free_memory()
+{
+    stack* temp=top;
+    
+
+    while(top!=NULL)
+    {
+        temp=top;
+        top=top->next;
+        free(temp);
+        
+    }
+    ;
+}
+
 int main()
 {
     push();
@@ -96,6 +131,9 @@ int main()
     display();
 
     peek();
+
+    pop();
+    pop();
 
     
     display();
