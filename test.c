@@ -1,8 +1,7 @@
-#include<stdio.h>
-#include<conio.h>
+// 
+#include <windows.h>
 
-int main()
-{
-	printf("Jai shree ram this is new ide for c programming");
-	return 0;
+int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrev, LPSTR args, int ncmdshow) {
+    MessageBox(NULL, "Hello, World!", "My First UI", MB_OK);
+    return 0;
 }
