@@ -68,7 +68,7 @@ int main()
 {
 while(true)
 {
-    printf("\n=============MEANU STACK USING ARRAY=====================\n");
+    printf("\n=============MENU STACK USING ARRAY=====================\n");
     printf("--CHOOSE OPTIONS--\n");
     printf("1) PUSH DATA (INSERT DATA IN STACK)\n");
     printf("2) POP DATA (DELETE DATA FROM STACK)\n");

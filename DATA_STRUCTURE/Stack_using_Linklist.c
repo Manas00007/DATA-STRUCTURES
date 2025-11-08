@@ -122,20 +122,44 @@ void free_memory()
 
 int main()
 {
-    push();
-    push();
-    push();
-    push();
-    push();
+   while(true)
+{
+    printf("\n=============MENU STACK USING ARRAY=====================\n");
+    printf("--CHOOSE OPTIONS--\n");
+    printf("1) PUSH DATA (INSERT DATA IN STACK)\n");
+    printf("2) POP DATA (DELETE DATA FROM STACK)\n");
+    printf("3) PEEK (GET TOP DATA OF STACK)\n");
+    printf("4) DISPLAY STACK DATA\n");
+    printf("5) Exit MENU");
 
-    display();
+    printf("\nChoose the Operation 1 to 5:\n");
+    int choice;
+    printf("Enter choice: ");
+    scanf("%d",&choice);
 
-    peek();
+    switch(choice)
+    {
+        case 1:
+        push();
+        break;
 
-    pop();
-    pop();
+        case 2:
+        pop();
+        break;
 
-    
-    display();
+        case 3:
+        peek();
+        break;
+
+        case 4:
+        display();
+        break;
+
+        case 5:
+        free_memory();
+        exit(0);
+        break;
+    }
+}
     return 0;
 }
