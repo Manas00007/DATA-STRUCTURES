@@ -152,7 +152,7 @@ void insertion()
         }
 
         int n;
-        printf("Enter node data to delete: ");
+        printf("\nEnter node data to delete: ");
         scanf("%d",&n);
 
         if(root->data==n)
@@ -206,7 +206,7 @@ void insertion()
         
 
 
-        if(parent->left->data>n)
+        if(parent->left->data==n)
         {
             dnode=parent->left;
         
@@ -260,17 +260,17 @@ void insertion()
 
         if(dnode->left!=NULL && dnode->right==NULL)
         {
-            parent->left=dnode->left;
+            parent->right=dnode->left;
             free(dnode);
         }
         else if(dnode->left==NULL && dnode->right!=NULL)
         {
-            parent->left=dnode->right;
+            parent->right=dnode->right;
             free(dnode);
         }
         else if(dnode->left==NULL && dnode->right==NULL)
         {
-            parent->left=NULL;
+            parent->right=NULL;
             free(dnode);
         }
         else
@@ -286,8 +286,12 @@ void insertion()
                 }
 
                 dnode->data=pred->data;
+                if(dnode==pred_parent) // pred is a exect child of dnode
+                {
+                    dnode->left=pred->left;
+                }
 
-                if(pred->left!=NULL)
+                else if(pred->left!=NULL)
                 {
                     pred_parent->right=pred->left;
                 }
@@ -304,19 +308,6 @@ void insertion()
 
 
     
-
-
-
-
-tree* small(tree* temp)
-{
-    if(temp->left==NULL)
-    {
-        return temp;
-    }
-    return small(temp->left);;
-}
-
 
 
 void preorder(tree* temp)
