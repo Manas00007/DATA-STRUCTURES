@@ -25,7 +25,7 @@ void enqueue()
 
     if(front==NULL)
     {
-        new->next=front;
+        new->next=new;
         rear=new;
         front=new;
     
@@ -39,8 +39,6 @@ void enqueue()
     }
 
     printf("\n%d is successfully  inserted\n",n);
-
-    
 }
 
 void dequeue()
@@ -72,7 +70,7 @@ void dequeue()
 }
 
 
-void peek()
+void peek()+
 {
     if(front==NULL)
     {

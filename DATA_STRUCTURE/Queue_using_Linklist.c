@@ -70,7 +70,7 @@ void peek()
         printf("Queue is empty..\n");
         return;
     }
-    printf("%d is the recent enqueued element\n",rear->data);
+    printf("%d is the front enqueued element\n",front->data);
 
 }
 void display()

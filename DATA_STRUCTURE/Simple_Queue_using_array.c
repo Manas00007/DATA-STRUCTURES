@@ -85,7 +85,7 @@ void peek()
         return;
     }
 
-    printf("\n%d is a recent element of the queue\n",queue[rear]);
+    printf("\n%d is a front element of the queue\n",queue[front]);
 }
 
 
