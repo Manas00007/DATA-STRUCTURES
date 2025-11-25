@@ -14,6 +14,35 @@ typedef struct node{
 avl* root=NULL;
 
 
+
+void LL(avl* temp)
+{
+
+    avl* parnt=parent(temp);
+    avl* temp2=temp->left;
+    temp2->right=temp;
+    parnt->left=temp2;
+
+
+
+}
+
+avl* parent(int n,avl* temp)
+{
+    if(temp->data==n)
+    {
+        return temp;
+    }
+
+    if(temp->data>n)
+    {
+        parent(n,temp->left);
+    }
+    else
+    {
+        parent(n,temp->right);
+    }
+}
 avl* traverse(int n,avl* temp)
 {
 
@@ -42,6 +71,17 @@ avl* traverse(int n,avl* temp)
 
 
 }
+void rotate(avl* temp,int z)
+{
+    if(z>0)
+    {
+        LL(temp);
+    }
+    else
+    {
+        RR(temp)
+    }
+}
 
 void check_balance(avl* temp)
  {
@@ -51,7 +91,18 @@ void check_balance(avl* temp)
     }
 
     check_balance(temp->left);
+    int x=temp->left->height;
+    int y=temp->right->height;
+    int z=x-y;
+    if(z>=2 || z<=-2)
+    {
+        rotate(temp,z);
+    }
     check_balance(temp->right);
+    if(z>=2 || z<=-2)
+    {
+        rotate(temp,z);
+    }
 
  }
 
