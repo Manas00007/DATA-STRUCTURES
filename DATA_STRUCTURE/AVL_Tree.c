@@ -14,16 +14,42 @@ typedef struct node{
 avl* root=NULL;
 
 
-
 void LL(avl* temp)
 {
 
     avl* parnt=parent(temp);
     avl* temp2=temp->left;
-    temp2->right=temp;
     parnt->left=temp2;
+    if(temp->right!=NULL)
+    {
+        temp2->right=temp;
+    }
+    else
+    {
+        
+        avl* child=temp2->right;
+        temp2->right=temp;
+        temp->left=child;
+       
+    }
 
+}
 
+void RR(avl* temp)
+{
+      avl* parnt=parent(temp);
+      avl* temp2=temp->right;
+      parnt->right=temp2;
+      if(temp2->left!=NULL)
+      {
+        temp2->left=temp;
+      }
+      else
+      {
+        avl* child=temp2->left;
+        temp2->left=temp;
+        temp->right=child;
+      }
 
 }
 
