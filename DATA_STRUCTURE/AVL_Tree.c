@@ -19,7 +19,7 @@ avl* traverse(int n,avl* temp)
 {
 
 
-    if(temp->right==NULL|| temp->left==NULL)
+    if(temp->right==NULL && temp->left==NULL)
     {
         return temp;
     }
@@ -34,11 +34,11 @@ avl* traverse(int n,avl* temp)
 
     if(temp->data>n)
     {
-        traverse(n,temp->left);
+        return traverse(n,temp->left);
     }
     else
     {
-        traverse(n,temp->right);
+        return traverse(n,temp->right);
     }
 
 
@@ -50,7 +50,7 @@ int maximum(avl* left,avl* right)
     {
         return -1;
     }
-    else if(left!==NULL && right==NULL)
+    else if(left!=NULL && right==NULL)
     {
         return left->height;
     }
@@ -91,6 +91,7 @@ void update_height(avl* temp)//update the height of tree
 //this function check balance of tree and if it is unbalance it balance the tree
 void check_fix_balance(avl* temp,int n)   //temp = root refrenece
 {
+    avl* r=temp;
 
     if(temp->data==n)
     {
@@ -106,26 +107,86 @@ void check_fix_balance(avl* temp,int n)   //temp = root refrenece
         check_fix_balance(temp->right,n)
     }
 
+    if(temp->left->height==NULL && temp->right->height=!NULL)
+    {
+        int x=-1;
+        int y=temp->right->height;
+
+    }
+    else if(temp->left->height!=NULL && temp->right->height==NULL)
+    {
+        int x=temp->left->height;
+        int y=-1
+    }
+    else
+    {
     int x=temp->left->height;
     int y=temp->right->height;
+    }
+
     int z=x-y;
     if(z>=2 || z<=-2)
     {
-        avl* parent = rotate(temp,z); // this function rotate and return new parent node for height updation....
+        avl* parent = rotate(temp,z,r); // this function rotate and return new parent node for height updation....
         update_height(parent);
     }
     return;
 }
 
-avl* rotate(avl* temp, int n);
+avl* parent(int n,avl* r)
 {
+
+    if((r->left!=NULL && r->left->data==n) || (r->right!=NULL && r->right->data==n))
+    {
+        return r;
+    }
+
+    if(r->data>n)
+    {
+        return parent(n,r->left);
+
+    }
+    else
+    {
+        return parent(n,r->right);  
+    }
+    
+}
+
+avl* rotate(avl* temp, int n,avl* r);
+{
+    avl* parent=parent(temp->data,r);
     if(n>-1)
     {
+        avl* child=temp->left->right;
+        
         // left subtree
+        if(temp->left->left==NULL && temp->left->right!=NULL)//LR rotation
+        {
+            child->left=temp->left;
+            temp->left->right=NULL;
+            temp->left=child;
+
+        }
+            //LL rotation
+            child->right=temp;
+            temp->left=NULL;
+            parent->left=child;
+
+
+
+        
     }
     else
     {
         //right subtree 
+        if(temp->right->right!=NULL)
+        {
+            //RL rotaion
+        }
+       
+            //RR rotation 
+
     }
 }
 
@@ -142,7 +203,7 @@ void insert()
 
     new->data=n;
     new->left=NULL;
-    new->right==NULL;
+    new->right=NULL;
     new->height=0;
 
     if(root==NULL)
@@ -163,7 +224,7 @@ void insert()
     }
     update_height(root);
 
-    check_fix_balance(root,n)
+    check_fix_balance(root,n);
 
 
 }
