@@ -85,7 +85,7 @@ void insert()
 
     if(root==NULL)
     {
-        root=new;
+        root=new; 
     }
 
     if(temp!=NULL)
