@@ -44,7 +44,7 @@ void update_height(avl* temp,int n)
         temp->height=(get_height(temp->left)-get_height(temp->right))+1;
     }
 
-}
+}  
 
 void check_fix_balance(avl* temp,int n)
 {
