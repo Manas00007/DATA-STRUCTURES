@@ -244,7 +244,7 @@ void insert()
     avl* temp=traverse(n,root);
 
     avl* new=(avl*) malloc(sizeof(avl));
-
+ 
     new->data=n;
     new->left=NULL;
     new->right=NULL;
