@@ -25,7 +25,6 @@ avl* get_height(avl* temp)
 
 void update_height(avl* temp,int n)
 {
-    avl* temp2;
     if( temp->data==n)
     {
         return;
@@ -42,9 +41,109 @@ void update_height(avl* temp,int n)
     {
         update_height(temp->right,n);
         temp->height=(get_height(temp->left)-get_height(temp->right))+1;
+        check_fix_balance(temp,n);
+
     }
 
 }  
+
+
+avl* superParent(int n,avl* temp)
+{
+    if(temp==NULL)
+    {
+        return NULL;
+    }
+
+
+    if(temp->data>n)
+    {
+        if(temp->left->data==n)
+        {
+            return temp;
+        }
+        else
+        {
+        return superParent(n,temp->left);
+        }
+    }
+    else
+    {
+         if(temp->right->data==n)
+        {
+            return temp;
+        }
+        else
+        {
+        return superParent(n,temp->right);
+        }
+    }
+
+}   
+
+void LL(avl* parent)
+{
+    avl* grand=superParent(parent->data,root);
+    avl* child=temp->left;
+
+    grand->left=child;
+
+    if(child->right!=NULL)
+    {
+        avl* temp=child->right;
+        parent->left=temp;
+    }
+    child->right=parent;
+
+    update_height(root,child->data);
+
+}
+
+void LR(avl* parent)
+{
+
+    avl* child=parent->left;
+    avl* temp=child->right;
+
+    parent->left=temp;
+    temp->left=child;
+
+    LL(parent);
+
+
+
+}
+
+
+void RR(avl* parent)
+{
+    avl* grand=superParent(parent->data,root);
+    avl* child=parent->right;
+
+    grand->right=child;
+
+    if(child->left!=NULL)
+    {
+        avl* temp=child->left;
+        parent->right=temp;
+    }
+
+    child->left=parent;
+
+}
+
+
+void RL(avl* parent)
+{
+
+    avl* child=parent->right;
+    avl* temp=child->left;
+    parent->right=temp;
+    temp->right=child;
+
+    RR(parent);
+
+}
 
 void check_fix_balance(avl* temp,int n)
 {
@@ -56,14 +155,82 @@ void check_fix_balance(avl* temp,int n)
     {
         if(diff>=2)
         {
+            avl* child=temp->left;
+            if(child->left==NULL)
+            {
+                LR(temp);
+            }
+            else
+            {
+                LL(temp);
+            }
+
             // left left or left right rotation
 
         }
         else
         {
+            avl* child=temp->left;
+            if(child->right==NULL)
+            {
+                RL(temp);
+            }
+            else
+            {
+                RR(temp);
+            }
             // right right or right left rotation 
         }
     }
+
+}
+
+
+avl* traverse(int n, avl* temp)
+{
+
+    if(temp==NULL)
+    {
+        return NULL;
+    }
+
+    if(temp->data==n)
+    {
+        printf("Already exist!");
+        return NULL;
+
+    }
+
+
+
+
+    if(temp->data>n)
+    {
+
+        if(temp->left==NULL)
+        {
+            return temp;
+        }
+        else{
+
+         return traverse(n,temp->left);
+    }
+         
+    }
+    else
+    {
+        if(temp->right==NULL)
+        {
+            return temp;
+        }
+        else
+        {
+        return traverse(n,temp->right);
+        }
+        
+    }
+
+
 
 }
 
