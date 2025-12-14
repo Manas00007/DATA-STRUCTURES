@@ -44,7 +44,7 @@ int get_height(avl* temp)
 
 avl* traverse(avl* temp,int n)
 {
-    if(temp=NULL)
+    if(temp==NULL)
     {
         return NULL;
     }
@@ -94,6 +94,112 @@ int update_height(avl* temp)
     return max(get_height(temp->left),get_height(temp->right))+1;
 }
 
+
+avl* right_rotation(avl* parent,avl* child)
+{
+    if(child->right!=NULL)
+    {
+        avl* temp=child->right;
+        parent->left=temp;
+        temp->height=update_height(temp);
+    }
+    child->right=parent;
+    parent->height=update_height(parent);
+    child->height=update_height(child);
+    return child;
+}
+
+
+avl* left_rotation(avl* parent,avl* child)
+{
+    if(child->left!=NULL)
+    {
+        avl* temp=child->left;
+        parent->right=temp;
+        temp->height=update_height(temp);
+    }
+
+    child->left=parent;
+    parent->height=update_height(parent);
+    child->height=update_height(child);
+    return child;
+}
+
+avl* balance_tree(int n,avl* temp)
+{
+    if(temp==NULL)
+    {
+        return NULL;
+    }
+
+    if(temp->data==n)
+    {
+        return temp;
+    }
+    
+    if(temp->data>n)
+    {
+        temp->left=balance_tree(n,temp->left);
+    }
+    else
+    {
+        temp->right=balance_tree(n,temp->right);
+    }
+    temp->height=update_height(temp);
+
+    int bf=balance_factor(temp);
+
+
+    if(bf>1 && balance_factor(temp->left)>=0)
+        {
+            avl* child=temp->left;
+            avl* parent=temp;
+            temp=right_rotation(parent,child);
+            return temp;
+             //LL rotation
+        }
+         else if(bf>1 && balance_factor(temp->left)<0)
+        {
+            avl* parent=temp;
+            avl* child=temp->left;
+            avl* grandchild=child->right;
+
+            child=left_rotation(child,grandchild);
+            temp=right_rotation(parent,child);
+            return temp;
+
+            //LR rotation
+        }
+        else if(bf<-1 && balance_factor(temp->right)<=0)
+        {
+            avl* child=temp->right;
+            avl* parent=temp;
+           
+            temp=left_rotation(parent,child);
+            return temp;    
+            //RR rotation
+        }
+       
+         else if(bf<-1 && balance_factor(temp->right)>0)
+        {
+            avl* parent=temp;
+            avl* child=temp->right;
+            avl* grandchild=child->left;
+            child=right_rotation(child,grandchild);
+            temp=left_rotation(parent,child);
+            return temp;
+
+            //RL rotation
+        }
+        else
+        {
+            return temp;
+        }
+
+        return temp;
+
+}
+
 void insert()
 {
     if(root==NULL)
@@ -104,7 +210,7 @@ void insert()
 
     avl* new=(avl*) malloc(sizeof(avl));
     int n;
-    printf("\n Enter data: ");
+    printf("Enter data: ");
     scanf("%d",&n);
     new->data=n;
     new->height=1;
@@ -123,68 +229,74 @@ void insert()
             temp->right=new;
         }
     }
-     root->height=update_height(root);
+     root=balance_tree(n,root);
 
-        int bf=balance_factor(root);
-
-        if(bf>1 && root->left->data>n)
-        {
-            avl* child=root->left;
-            avl temp=root;
-
-            if(child->right!=NULL)
-            {
-                avl* temp2=child->right;
-                temp->left=temp2;
-                temp2->height=max(get_height(temp2->left),get_height(temp2->right))+1;
-            }
-            child->right=temp;
-            temp->height=max(get_height(temp->left),get_height(temp->right))+1;
-            child->height=max(get_height(child->left),get_height(child->right))+1;
-            root=child;
-            return;
-
-            
-             //LL rotation
-        }
-        if(bf<-1 && root->right->data<n)
-        {
-            avl* child=root->right;
-            avl temp=root;
-            if(child->left!=NULL)
-            {
-                avl* temp2=child->left;
-                temp->right=temp2;
-                temp2->height=max(get_height(temp2->left),get_height(temp2->right))+1;
-            }
-            child->left=temp;
-            temp->height=max(get_height(temp->left),get_height(temp->right))+1;
-            child->height=max(get_height(child->left),get_height(child->right))+1;
-            root=child;
-            return;
-            
-            //RR rotation
-        }
-        if(bf>1 && root->left->data<n)
-        {
-            avl* child=root->left;
-            avl* grandchild=child->right;
-            avl* temp=root;
-            temp->left=grandchild;
-            grandchild->left=child;
-            grandchild->right=temp;
-
-
-            //LR rotation
-        }
-         if(bf<-1 && root->right->data>n)
-        {
-            //RL rotation
-        }
 
 }
 
+
+void preorder(avl* temp)
+{
+    if(temp==NULL)
+    {
+        return;
+    }
+
+    printf(" %d",temp->data);
+    preorder(temp->left);
+    preorder(temp->right);
+}
+
+void inorder(avl* temp)
+{
+    if(temp==NULL)
+    {
+        return;
+    }
+    inorder(temp->left);
+    printf(" %d",temp->data);
+    inorder(temp->right);
+}
+
+void postorder(avl* temp)
+{
+    if(temp==NULL)
+    {
+        return;
+    }
+    postorder(temp->left);
+    postorder(temp->right);
+    printf(" %d",temp->data);
+}
+
+void display()
+{
+    if(root==NULL)
+    {
+        printf("NO element found");
+        return;
+    }
+    printf("Preorder: ");
+    preorder(root);
+    printf("\n");
+    printf("Inorder: ");
+    inorder(root);
+    printf("\n");
+    printf("Postorder: ");
+    postorder(root);
+}
+
+
 int main()
 {
-    return 0;
+    
+
+create();
+insert();
+insert();
+// insert();
+// insert();
+display();
+return 0;
+
 }
