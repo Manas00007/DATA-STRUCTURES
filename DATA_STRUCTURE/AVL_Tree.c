@@ -13,7 +13,7 @@ typedef struct node
 }avl;
 
 
-avl* root;
+avl* root=NULL;
 
 
 void create()
@@ -95,31 +95,30 @@ int update_height(avl* temp)
 }
 
 
-avl* right_rotation(avl* parent,avl* child)
+avl* right_rotation(avl* parent)
 {
-    if(child->right!=NULL)
-    {
-        avl* temp=child->right;
-        parent->left=temp;
-        temp->height=update_height(temp);
-    }
+   
+    avl* child=parent->left;
+    avl* temp=child->right;
+
     child->right=parent;
+    parent->left=temp;
+    
+
     parent->height=update_height(parent);
     child->height=update_height(child);
     return child;
 }
 
 
-avl* left_rotation(avl* parent,avl* child)
+avl* left_rotation(avl* parent)
 {
-    if(child->left!=NULL)
-    {
-        avl* temp=child->left;
-        parent->right=temp;
-        temp->height=update_height(temp);
-    }
+    avl* child=parent->right;
+    avl* temp=child->left;
 
     child->left=parent;
+    parent->right=temp;
+
     parent->height=update_height(parent);
     child->height=update_height(child);
     return child;
@@ -152,41 +151,31 @@ avl* balance_tree(int n,avl* temp)
 
     if(bf>1 && balance_factor(temp->left)>=0)
         {
-            avl* child=temp->left;
-            avl* parent=temp;
-            temp=right_rotation(parent,child);
+
+            temp=right_rotation(temp);
             return temp;
              //LL rotation
         }
          else if(bf>1 && balance_factor(temp->left)<0)
         {
-            avl* parent=temp;
-            avl* child=temp->left;
-            avl* grandchild=child->right;
-
-            child=left_rotation(child,grandchild);
-            temp=right_rotation(parent,child);
+            temp->left=left_rotation(temp->left);
+            temp=right_rotation(temp);
             return temp;
 
             //LR rotation
         }
         else if(bf<-1 && balance_factor(temp->right)<=0)
         {
-            avl* child=temp->right;
-            avl* parent=temp;
-           
-            temp=left_rotation(parent,child);
+            temp=left_rotation(temp);
             return temp;    
             //RR rotation
         }
        
          else if(bf<-1 && balance_factor(temp->right)>0)
         {
-            avl* parent=temp;
-            avl* child=temp->right;
-            avl* grandchild=child->left;
-            child=right_rotation(child,grandchild);
-            temp=left_rotation(parent,child);
+           
+            temp->right=right_rotation(temp->right);
+            temp=left_rotation(temp);
             return temp;
 
             //RL rotation
@@ -231,7 +220,77 @@ void insert()
     }
      root=balance_tree(n,root);
 
+}
 
+
+avl* search(avl* temp,int n)
+{
+    if(temp==NULL)
+    {
+        printf("\n Data not found");
+        return NULL;
+    }
+    // if(temp->data==n)
+    // {
+    //     printf("Already Exist!");
+    //     return NULL;
+    // }
+
+    if(temp->data>n)
+    {
+        if(temp->left->data==n || temp->right->data==n)
+        {
+            return temp;
+        }
+        else
+        {
+            return traverse(temp->left,n);
+        }
+    }
+    else
+    {
+          if(temp->right->data==n || temp->left->data==n)
+        {
+            return temp;
+        }
+        else
+        {
+            return traverse(temp->right,n);
+        }
+    }
+}
+void delete()
+{
+    if(root==NULL)
+    {
+        printf("\nNo element found..\n");
+        return;
+    }
+    
+    printf("Enter element to delete");
+    int n;
+    scanf("%d",&n);
+    avl* temp=root;
+    if(root->left==NULL && root->right==NULL && root->data==n)
+    {
+        root=NULL;
+        free(temp);
+        return;
+    }
+
+    avl* data_parent=search(root,n);
+    avl* data_node
+
+    if(data_parent->data>n)
+    {
+    data_node=data_parent->left;
+    }
+    else
+    {
+      data_node=data_parent->right;
+    }
+
+    if()
 }
 
 
